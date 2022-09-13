@@ -4,7 +4,26 @@ import styles from "./App.module.css";
 import { Post } from "./components/Post";
 import { Sidebar } from "./components/Sidebar";
 
-const posts = [
+interface Author {
+  name: string;
+  role: string;
+  avatarUrl: string;
+}
+
+interface Content {
+  type: "paragraph" | "link";
+  content: string;
+  href?: string;
+}
+
+interface PostProps {
+  id: number;
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
+}
+
+const posts: PostProps[] = [
   {
     id: 1,
     author: {
@@ -55,11 +74,14 @@ export function App() {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          {
-            posts.map(post => (
-              <Post key={post.id} {...post} />
-            ))
-          }
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              author={post.author}
+              content={post.content}
+              publishedAt={post.publishedAt}
+            />
+          ))}
         </main>
       </div>
     </div>
